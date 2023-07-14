@@ -9,6 +9,7 @@ import edu.timebandit.CheckoutService.core.domain.service.interfaces.ICheckoutSe
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -28,7 +29,7 @@ public class CheckoutService implements ICheckoutService {
         Order order = new Order(UUID.randomUUID(), OrderState.PENDING, UUID.fromString(basketID), paymentMethod,
                 null, null, totalPrice, shippingAddress, billingAddress);
 
-        Map<Watch, Double> productsMap = order.getProducts();
+        Map<Watch, Double> productsMap = new HashMap<>();
         for (Watch product : products) {
             productsMap.put(product, product.getPrice()*product.getOrderQuantity());
         }

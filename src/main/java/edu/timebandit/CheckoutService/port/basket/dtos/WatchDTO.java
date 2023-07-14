@@ -11,5 +11,5 @@ public class WatchDTO {
     private String id;
     private String name;
     private double price;
-    private int quantity;
+    private int orderQuantity;
 }
