@@ -21,7 +21,7 @@ public interface ICheckoutService {
 
     boolean checkOrderExists(String orderID);
 
-    String updateOrderStatus(String orderID, OrderState status);
+    void updateOrderStatus(String orderID, OrderState status);
 
     String updatePaymentID(String orderID, String paymentID);
 }

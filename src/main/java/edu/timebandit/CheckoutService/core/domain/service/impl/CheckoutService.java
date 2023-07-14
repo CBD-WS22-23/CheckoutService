@@ -60,14 +60,12 @@ public class CheckoutService implements ICheckoutService {
 
     @Override
     @Transactional
-    public String updateOrderStatus(String orderID, OrderState status) {
+    public void updateOrderStatus(String orderID, OrderState status) {
         Order order = checkoutRepository.findById(UUID.fromString(orderID)).orElse(null);
         if (order != null) {
             order.setStatus(status);
             checkoutRepository.save(order);
-            return order.getId().toString();
         }
-        return null;
     }
 
     @Override

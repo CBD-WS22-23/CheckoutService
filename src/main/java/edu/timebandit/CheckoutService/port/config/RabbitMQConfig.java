@@ -34,6 +34,18 @@ public class RabbitMQConfig {
     @Value("initialize_payment_routing_key")
     private String initializePaymentRoutingKey;
 
+    @Value("product_bought_queue")
+    private String productBoughtName;
+
+    @Value("product_bought_routing_key")
+    private String productBoughtRoutingKey;
+
+    @Value("empty_basket_queue")
+    private String emptyBasketName;
+
+    @Value("empty_basket_routing_key")
+    private String emptyBasketRoutingKey;
+
     @Value("checkout_exchange")
     private String checkoutExchange;
 
@@ -53,11 +65,11 @@ public class RabbitMQConfig {
     private String paymentExchange;
 
 
+
     @Bean
     public Queue checkoutQueue() {
         return new Queue(checkoutName);
     }
-
 
     @Bean
     public Queue productCheckoutSuccessQueue() {
@@ -72,6 +84,16 @@ public class RabbitMQConfig {
     @Bean
     public Queue initializePaymentQueue() {
         return new Queue(initializePaymentName);
+    }
+
+    @Bean
+    public Queue productBoughtQueue() {
+        return new Queue(productBoughtName);
+    }
+
+    @Bean
+    public Queue emptyBasketQueue() {
+        return new Queue(emptyBasketName);
     }
 
     @Bean
@@ -140,6 +162,22 @@ public class RabbitMQConfig {
                 .bind(paymentResultQueue())
                 .to(paymentExchange())
                 .with(paymentResultRoutingKey);
+    }
+
+    @Bean
+    public Binding bindingProductBoughtQueue() {
+        return BindingBuilder
+                .bind(productBoughtQueue())
+                .to(checkoutExchange())
+                .with(productBoughtRoutingKey);
+    }
+
+    @Bean
+    public Binding bindingEmptyBasketQueue() {
+        return BindingBuilder
+                .bind(emptyBasketQueue())
+                .to(checkoutExchange())
+                .with(emptyBasketRoutingKey);
     }
 
     @Bean
