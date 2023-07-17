@@ -35,7 +35,7 @@ public class Order {
     @JdbcTypeCode(SqlTypes.VARCHAR)
     private UUID paymentID;
 
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     private Map<Watch, Double> products;
 
     private Double totalPrice;

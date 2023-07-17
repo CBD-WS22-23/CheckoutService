@@ -18,7 +18,6 @@ import java.util.UUID;
 @Embeddable
 public class Watch {
 
-    @Column(nullable = false, unique = true)
     @JdbcTypeCode(SqlTypes.VARCHAR)
     private UUID id;
 

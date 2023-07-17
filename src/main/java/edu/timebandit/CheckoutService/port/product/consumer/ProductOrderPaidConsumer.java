@@ -3,6 +3,7 @@ package edu.timebandit.CheckoutService.port.product.consumer;
 import edu.timebandit.CheckoutService.core.domain.model.Order;
 import edu.timebandit.CheckoutService.core.domain.model.Watch;
 import edu.timebandit.CheckoutService.core.domain.service.interfaces.ICheckoutService;
+import edu.timebandit.CheckoutService.port.product.dtos.ProductBoughtDTO;
 import edu.timebandit.CheckoutService.port.product.producer.ProductBoughtProducer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -40,6 +41,6 @@ public class ProductOrderPaidConsumer {
             products.put(watch.getId().toString(), watch.getOrderQuantity());
         }
 
-        productBoughtProducer.sendProductBoughtMessage(products);
+        productBoughtProducer.sendProductBoughtMessage(new ProductBoughtDTO(products));
     }
 }

@@ -11,7 +11,7 @@ public class PaymentRequestDTO {
 
     private String orderID;
 
-    private double amount;
+    private double totalPrice;
 
     private String paymentMethod;
 
