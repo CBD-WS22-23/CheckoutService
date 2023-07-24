@@ -1,4 +1,6 @@
 spring:
+  application:
+    name: "CheckoutService"
   jpa:
     database: postgresql
     show-sql: false
@@ -25,4 +27,8 @@ springdoc:
     enabled: true
     path: /api-docs
 server:
-    port: 8082
+  port: 8082
+eureka:
+  client:
+    service-url:
+      defaultZone: http://host.docker.internal:8084/eureka/

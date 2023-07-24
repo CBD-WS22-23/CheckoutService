@@ -20,7 +20,6 @@ public class PaymentResultConsumer {
     @Autowired
     OrderPaidProducer orderPaidProducer;
 
-
     @RabbitListener(queues = "payment_result_queue")
     public void receivePaymentResultMessage(PaymentResultDTO paymentResult) {
         logger.info("Received message with payment result: {}", paymentResult);

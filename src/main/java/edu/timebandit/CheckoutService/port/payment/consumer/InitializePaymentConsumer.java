@@ -5,6 +5,7 @@ import edu.timebandit.CheckoutService.core.domain.model.Order;
 import edu.timebandit.CheckoutService.core.domain.service.interfaces.ICheckoutService;
 import edu.timebandit.CheckoutService.port.payment.dtos.PaymentRequestDTO;
 import edu.timebandit.CheckoutService.port.payment.producer.PaymentRequestProducer;
+import jakarta.validation.constraints.NotBlank;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
@@ -22,7 +23,7 @@ public class InitializePaymentConsumer {
     private PaymentRequestProducer paymentRequestProducer;
 
     @RabbitListener(queues = "initialize_payment_queue")
-    public void receiveInitializePaymentMessage(String orderID) {
+    public void receiveInitializePaymentMessage(@NotBlank String orderID) {
         logger.info("Received message to initialize payment for order: {}", orderID);
 
         Order order = checkoutService.getOrderByID(orderID);
