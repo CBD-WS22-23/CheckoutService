@@ -1,6 +1,7 @@
-package edu.timebandit.CheckoutService.port.product.producer;
+package edu.timebandit.CheckoutService.port.product.producer.impl;
 
 import edu.timebandit.CheckoutService.port.product.dtos.ProductBoughtDTO;
+import edu.timebandit.CheckoutService.port.product.producer.interfaces.IProductBoughtProducer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -9,7 +10,7 @@ import org.springframework.stereotype.Service;
 
 
 @Service
-public class ProductBoughtProducer {
+public class ProductBoughtProducer implements IProductBoughtProducer {
 
     @Value("checkout_exchange")
     private String exchange;

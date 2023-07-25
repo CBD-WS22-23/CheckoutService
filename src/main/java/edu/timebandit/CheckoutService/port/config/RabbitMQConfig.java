@@ -19,21 +19,6 @@ public class RabbitMQConfig {
     @Value("checkout_routing_key")
     private String checkoutRoutingKey;
 
-    @Value("basket_checkout_success_queue")
-    private String basketCheckoutSuccessName;
-
-    @Value("product_checkout_success_queue")
-    private String productCheckoutSuccessName;
-
-    @Value("checkout_success_routing_key")
-    private String checkoutSuccessRoutingKey;
-
-    @Value("initialize_payment_queue")
-    private String initializePaymentName;
-
-    @Value("initialize_payment_routing_key")
-    private String initializePaymentRoutingKey;
-
     @Value("product_bought_queue")
     private String productBoughtName;
 
@@ -65,25 +50,9 @@ public class RabbitMQConfig {
     private String paymentExchange;
 
 
-
     @Bean
     public Queue checkoutQueue() {
         return new Queue(checkoutName);
-    }
-
-    @Bean
-    public Queue productCheckoutSuccessQueue() {
-        return new Queue(productCheckoutSuccessName);
-    }
-
-    @Bean
-    public Queue basketCheckoutSuccessQueue() {
-        return new Queue(basketCheckoutSuccessName);
-    }
-
-    @Bean
-    public Queue initializePaymentQueue() {
-        return new Queue(initializePaymentName);
     }
 
     @Bean
@@ -122,30 +91,6 @@ public class RabbitMQConfig {
                 .bind(checkoutQueue())
                 .to(checkoutExchange())
                 .with(checkoutRoutingKey);
-    }
-
-    @Bean
-    public Binding bindingProductCheckoutSuccessQueue() {
-        return BindingBuilder
-                .bind(productCheckoutSuccessQueue())
-                .to(checkoutExchange())
-                .with(checkoutSuccessRoutingKey);
-    }
-
-    @Bean
-    public Binding bindingBasketCheckoutSuccessQueue() {
-        return BindingBuilder
-                .bind(basketCheckoutSuccessQueue())
-                .to(checkoutExchange())
-                .with(checkoutSuccessRoutingKey);
-    }
-
-    @Bean
-    public Binding bindingInitializePaymentQueue() {
-        return BindingBuilder
-                .bind(initializePaymentQueue())
-                .to(checkoutExchange())
-                .with(initializePaymentRoutingKey);
     }
 
     @Bean

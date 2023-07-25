@@ -1,6 +1,7 @@
-package edu.timebandit.CheckoutService.port.payment.producer;
+package edu.timebandit.CheckoutService.port.payment.producer.impl;
 
 import edu.timebandit.CheckoutService.port.payment.dtos.PaymentRequestDTO;
+import edu.timebandit.CheckoutService.port.payment.producer.interfaces.IPaymentRequestProducer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -8,7 +9,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 @Service
-public class PaymentRequestProducer {
+public class PaymentRequestProducer implements IPaymentRequestProducer {
 
     @Value("payment_exchange")
     private String exchange;

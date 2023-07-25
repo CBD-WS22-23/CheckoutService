@@ -1,15 +1,15 @@
-package edu.timebandit.CheckoutService.port.basket.consumer;
+package edu.timebandit.CheckoutService.core.appservice.impl;
 
+import edu.timebandit.CheckoutService.core.appservice.interfaces.ICreateOrderAndRequestPayment;
 import edu.timebandit.CheckoutService.core.domain.model.Address;
+import edu.timebandit.CheckoutService.core.domain.model.Order;
 import edu.timebandit.CheckoutService.core.domain.model.Watch;
 import edu.timebandit.CheckoutService.core.domain.service.interfaces.ICheckoutService;
 import edu.timebandit.CheckoutService.port.basket.dtos.OrderDTO;
 import edu.timebandit.CheckoutService.port.basket.dtos.WatchDTO;
-import edu.timebandit.CheckoutService.port.basket.producer.InitializePaymentProducer;
+import edu.timebandit.CheckoutService.port.payment.dtos.PaymentRequestDTO;
+import edu.timebandit.CheckoutService.port.payment.producer.interfaces.IPaymentRequestProducer;
 import org.modelmapper.ModelMapper;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -17,10 +17,8 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 
-
 @Service
-public class CreateOrderConsumer {
-    private static final Logger LOGGER = LoggerFactory.getLogger(CreateOrderConsumer.class);
+public class CreateOrderAndRequestPayment implements ICreateOrderAndRequestPayment {
 
     @Qualifier("CheckoutModelMapper")
     @Autowired
@@ -30,12 +28,10 @@ public class CreateOrderConsumer {
     private ICheckoutService checkoutService;
 
     @Autowired
-    InitializePaymentProducer initializePaymentProducer;
+    private IPaymentRequestProducer paymentRequestProducer;
 
-
-    @RabbitListener(queues = "checkout_queue")
-    public void receiveCreateOrderMessage(OrderDTO orderDTO) {
-        LOGGER.info("Received message to create order: {}", orderDTO);
+    @Override
+    public void createAndRequest(OrderDTO orderDTO) {
 
         List<Watch> checkoutProducts = new ArrayList<>();
 
@@ -49,7 +45,9 @@ public class CreateOrderConsumer {
                 checkoutModelMapper.map(orderDTO.getBillingAddress(), Address.class),
                 orderDTO.getPaymentMethod());
 
-        initializePaymentProducer.sendInitializePaymentMessage(orderID);
-    }
+        Order order = checkoutService.getOrderByID(orderID);
 
+        paymentRequestProducer.sendPaymentRequestMessage(new PaymentRequestDTO(orderID,
+                order.getTotalPrice(), order.getPaymentMethod()));
+    }
 }
